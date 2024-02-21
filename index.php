@@ -23,6 +23,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <title>Home</title>
 </head>
 
 <body>
@@ -36,17 +37,17 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav ms-auto me-5"> <!-- Tambahkan class "ms-auto" di sini -->
                     <a class="nav-link me-3 active" aria-current="page" href="index.php">Home</a>
-                    <a class="nav-link me-3" href="album.php">Album</a>
+                    <a class="nav-link me-3" href="frontend/album.php">Album</a>
                     <?php
                         session_start();
                         if(!isset($_SESSION['userid'])){
                     ?>
-                    <a class="nav-link me-3" href="login.php">Login</a>
-                    <a class="nav-link me-3" href="register.php">Register</a>
+                    <a class="nav-link me-3" href="frontend/login.php">Login</a>
+                    <a class="nav-link me-3" href="frontend/register.php">Register</a>
                     <?php
                         }else{
                     ?>
-                    <a class="nav-link me-3" href="logout.php">Logout</a>
+                    <a class="nav-link me-3" href="backend/logout.php">Logout</a>
                     <?php
                         }
                     ?>
@@ -79,7 +80,7 @@
                         </div>
                         <div class="modal-body">
                             <!-- Formulir Create -->
-                            <form action="tambah_foto.php" method="post" enctype="multipart/form-data">
+                            <form action="backend/tambah_foto.php" method="post" enctype="multipart/form-data">
                                 <div class="form-genus d-flex">
                                     <div class="form-spesies-1">
                                         <div class="form-group">
@@ -148,9 +149,9 @@
                 <div class="overlay">
                     <div class="judul-foto"><?= $data['judulfoto'] ?></div>
                     <div class="like-view">
-                        <a href="like.php?fotoid=<?= $data['fotoid'] ?>"> <img src="gambar/like.png" alt=""
-                                style="width: 30px; height: 30px;"> </a>
-                        <a href="view.php?id=<?= $data['fotoid'] ?>" class="view">
+                        <a href="backend/like.php?fotoid=<?= $data['fotoid'] ?>"> <img src="gambar/like.png"
+                                alt="" style="width: 30px; height: 30px;"> </a>
+                        <a href="frontend/view.php?id=<?= $data['fotoid'] ?>" class="view">
                             <img src="gambar/view.png" alt="">
                         </a>
                     </div>
@@ -189,7 +190,8 @@
                                 Arifin Ilham
                             </h6>
                             <p>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid quisquam velit facilis, earum doloremque suscipit.
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid quisquam velit facilis,
+                                earum doloremque suscipit.
                             </p>
                         </div>
 
@@ -256,7 +258,7 @@
         </footer>
     </div>
 
-
+    <!-- overlay gambar -->
     <script>
         document.getElementById('gambar').addEventListener('change', function(e) {
             var fileInput = e.target;
@@ -270,6 +272,16 @@
                 reader.readAsDataURL(file);
             }
         });
+    </script>
+
+    <!-- pesan foto berhasil ditambahkan -->
+    <script>
+        // Cek apakah terdapat pesan sukses, jika ada tampilkan alert
+        var pesan = "<?php echo isset($_SESSION['pesan']) ? $_SESSION['pesan'] : ''; ?>";
+        if (pesan !== "") {
+            alert(pesan);
+            <?php unset($_SESSION['pesan']); // Hapus pesan setelah ditampilkan ?>
+        }
     </script>
 
 </body>

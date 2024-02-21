@@ -1,10 +1,10 @@
 <?php
-    include "koneksi.php";
+    include "../koneksi.php";
     session_start();
 
     $albumid=$_GET['albumid'];
 
     $sql=mysqli_query($conn,"delete from album where albumid='$albumid'");
 
-    header("location:album.php");
+    header("location:../frontend/album.php");
 ?>

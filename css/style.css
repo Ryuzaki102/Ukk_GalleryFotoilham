@@ -1,8 +1,19 @@
+/* halaman utama */
 .main-image {
   width: 100%;
   height: 200px;
   margin-top: 20px;
   background-image: url(../gambar/image.png);
+  background-size: cover;
+  background-position: center; /* Meletakkan gambar di tengah-tengah elemen */
+  position: relative;
+}
+
+.main-image1 {
+  width: 100%;
+  height: 200px;
+  margin-top: 20px;
+  background-image: url(../gambar/pemandangan.jpg);
   background-size: cover;
   background-position: center; /* Meletakkan gambar di tengah-tengah elemen */
   position: relative;

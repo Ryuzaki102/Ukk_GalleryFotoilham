@@ -14,7 +14,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
         integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous">
     </script>
-    <link rel="stylesheet" href="css/login.css?<?php echo time(); ?>">
+    <link rel="stylesheet" href="../css/login.css?<?php echo time(); ?>">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
@@ -23,7 +23,7 @@
     <title>Halaman Login</title>
     <style>
         body {
-            background-image: url(gambar/xzcc.jpg);
+            background-image: url(../gambar/xzcc.jpg);
             background-size: cover;
             position: relative;
         }
@@ -43,12 +43,12 @@
 </head>
 
 <body>
-    <form method="post" action="proses_login.php">
+    <form method="post" action="../backend/proses_login.php">
         <h2 class="text-center text-white pt-4">Login Form</h2>
         <div class="login container-fluid">
             <div class="form-login">
                 <div class="content">
-                    <div class="logo" style="margin-left: 72px;"><img src="gambar/logo.png" alt=""
+                    <div class="logo" style="margin-left: 72px;"><img src="../gambar/logo.png" alt=""
                             width="100px">
                     </div>
                     <div class="form-floating">

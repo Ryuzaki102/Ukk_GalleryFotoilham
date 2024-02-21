@@ -7,7 +7,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 
-include 'koneksi.php';
+include '../koneksi.php';
 
 $fotoid = $_GET['id'];
 $sql = mysqli_query($conn, "SELECT * FROM foto WHERE fotoid = $fotoid");
@@ -53,7 +53,7 @@ if (isset($_GET['id'])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
         integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous">
     </script>
-    <link rel="stylesheet" href="css/style.css?<?php echo time(); ?>">
+    <link rel="stylesheet" href="../css/style.css?<?php echo time(); ?>">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
@@ -76,7 +76,7 @@ if (isset($_GET['id'])) {
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav ms-auto me-5"> <!-- Tambahkan class "ms-auto" di sini -->
-                    <a class="nav-link me-3 active" aria-current="page" href="index.php">Home</a>
+                    <a class="nav-link me-3 active" aria-current="page" href="../index.php">Home</a>
                     <a class="nav-link me-3" href="album.php">Album</a>
                     <?php
                         if(!isset($_SESSION['userid'])){
@@ -86,7 +86,7 @@ if (isset($_GET['id'])) {
                     <?php
                         }else{
                     ?>
-                    <a class="nav-link me-3" href="logout.php">Logout</a>
+                    <a class="nav-link me-3" href="../backend/logout.php">Logout</a>
                     <?php
                         }
                     ?>
@@ -97,7 +97,7 @@ if (isset($_GET['id'])) {
 
     <div class="view-container mt-5">
         <div class="view-image">
-            <img src="gambar/<?= $dataFoto['lokasifile'] ?>" alt="" class="img-fluid">
+            <img src="../gambar/<?= $dataFoto['lokasifile'] ?>" alt="" class="img-fluid">
         </div>
         <div class="view-content">
             <div class="view-title d-flex">
@@ -123,7 +123,7 @@ if (isset($_GET['id'])) {
 
             <div class="form-komentar mt-auto">
                 <!-- Tambahkan class "mt-auto" untuk meletakkan formulir di bagian bawah -->
-                <form action="tambah_komentar.php" method="post">
+                <form action="../backend/tambah_komentar.php" method="post">
                     <div class="mt-0 mb-0">
                         <div class="waduh d-flex">
                             <p style="font-style: italic;">Tulis Komentar</p>
@@ -136,13 +136,13 @@ if (isset($_GET['id'])) {
                                 $jumlahLike = $dataJumlahLike['jumlah_like'];
                                 ?>
                                 <p style="font-weight: 600; margin-top: 4px; color: maroon;"><?= $jumlahLike ?> Like</p>
-                                <a href="like.php?fotoid=<?= $fotoid ?>"> <img src="gambar/like.png" alt=""
+                                <a href="../backend/like.php?fotoid=<?= $fotoid ?>"> <img src="../gambar/like.png" alt=""
                                         style="width: 30px; height: 30px;"> </a>
                             </div>
 
                         </div>
                         <?php
-                            include "koneksi.php";
+                            include "../koneksi.php";
                             $fotoid = $_GET['id'];
                             $sql = mysqli_query($conn, "select * from foto where fotoid='$fotoid'");
                             while ($data = mysqli_fetch_array($sql)) {

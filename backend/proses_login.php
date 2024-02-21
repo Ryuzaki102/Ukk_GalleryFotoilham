@@ -1,5 +1,5 @@
 <?php
-    include "koneksi.php";
+    include "../koneksi.php";
     session_start();
 
     $username=$_POST['username'];
@@ -18,9 +18,9 @@
             
 
         }
-        header("location:index.php");
+        header("location:../index.php");
     }else{
-        header("location:login.php");
+        header("location:../frontendlogin.php");
     }
 
     

@@ -1,5 +1,5 @@
 <?php
-    include "koneksi.php";
+    include "../koneksi.php";
     session_start();
 
     $namaalbum=$_POST['namaalbum'];
@@ -9,5 +9,5 @@
 
     $sql=mysqli_query($conn,"insert into album values('','$namaalbum','$deskripsi','$tanggaldibuat','$userid')");
 
-    header("location:album.php");
+    header("location:../frontend/album.php");
 ?>

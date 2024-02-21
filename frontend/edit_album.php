@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['userid'])) {
-    header('location:login.php');
+    header('location:.login.php');
 }
 ?>
 
@@ -42,7 +42,7 @@ if (!isset($_SESSION['userid'])) {
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav ms-auto me-5"> <!-- Tambahkan class "ms-auto" di sini -->
-                    <a class="nav-link me-3 active" aria-current="page" href="index.php">Home</a>
+                    <a class="nav-link me-3 active" aria-current="page" href="../index.php">Home</a>
                     <a class="nav-link me-3" href="album.php">Album</a>
                     <?php
                         if(!isset($_SESSION['userid'])){
@@ -52,7 +52,7 @@ if (!isset($_SESSION['userid'])) {
                     <?php
                         }else{
                     ?>
-                    <a class="nav-link me-3" href="logout.php">Logout</a>
+                    <a class="nav-link me-3" href="../backend/logout.php">Logout</a>
                     <?php
                         }
                     ?>
@@ -61,32 +61,36 @@ if (!isset($_SESSION['userid'])) {
         </div>
     </nav>
 
-    <form action="update_album.php" method="post">
-        <?php
-            include "koneksi.php";
+    <div class="container d-flex align-items-center justify-content-center" style="min-height: 80vh;">
+        <div class="content-album" style="width: 600px;">
+            <h3 class="text-center">EDIT ALBUM</h3>
+            <form action="../backend/update_album.php" method="post">
+                <?php
+            include "../koneksi.php";
             $albumid=$_GET['albumid'];
             $sql=mysqli_query($conn,"select * from album where albumid='$albumid'");
             while($data=mysqli_fetch_array($sql)){
-        ?>
-        <input type="text" name="albumid" value="<?= $data['albumid'] ?>" hidden>
-        <table>
-            <tr>
-                <td>Nama Album</td>
-                <td><input type="text" name="namaalbum" value="<?= $data['namaalbum'] ?>"></td>
-            </tr>
-            <tr>
-                <td>Deskripsi</td>
-                <td><input type="text" name="deskripsi" value="<?= $data['deskripsi'] ?>"></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td><input type="submit" value="Ubah"></td>
-            </tr>
-        </table>
-        <?php
+            ?>
+                <input type="text" name="albumid" value="<?= $data['albumid'] ?>" hidden>
+                <div class="form-group">
+                    <label for="judulfoto">Nama Album</label>
+                    <input type="text" class="form-control mt-1" id="namaalbum" name="namaalbum"
+                        value="<?= $data['namaalbum'] ?>" required>
+                </div>
+                <div class="form-group mt-3">
+                    <label for="deskripsi">Deskripsi</label>
+                    <input type="text" class="form-control mt-1" id="deskripsi" name="deskripsi"
+                        value="<?= $data['deskripsi'] ?>" required>
+                </div>
+                <button type="submit" value="ubah" name="submit" class="btn mt-4"
+                    style="  background-color: rgb(120, 74, 141); width: 100%; color: white;
+                    s">Update</button>
+                <?php
             }
-        ?>
-    </form>
+            ?>
+            </form>
+        </div>
+    </div>
 
 
 </body>

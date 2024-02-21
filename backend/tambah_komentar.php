@@ -1,5 +1,5 @@
 <?php
-    include "koneksi.php";
+    include "../koneksi.php";
     session_start();
 
     $fotoid=$_POST['fotoid'];
@@ -9,5 +9,5 @@
 
     $sql=mysqli_query($conn,"insert into komentarfoto values('','$fotoid','$userid','$isikomentar','$tanggalkomentar')");
 
-    header("location:view.php?id=".$fotoid);
+    header("location:../frontend/view.php?id=".$fotoid);
 ?>

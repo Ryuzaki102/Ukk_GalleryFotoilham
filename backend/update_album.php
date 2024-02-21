@@ -1,5 +1,5 @@
 <?php
-    include "koneksi.php";
+    include "../koneksi.php";
     session_start();
 
     $albumid=$_POST['albumid'];
@@ -8,5 +8,5 @@
 
     $sql=mysqli_query($conn,"update album set namaalbum='$namaalbum',deskripsi='$deskripsi' where albumid='$albumid'");
 
-    header("location:album.php");
+    header("location:../frontend/album.php");
 ?>

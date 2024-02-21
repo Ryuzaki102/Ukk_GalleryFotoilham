@@ -28,7 +28,7 @@ if (session_status() == PHP_SESSION_NONE) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
         integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous">
     </script>
-    <link rel="stylesheet" href="css/style.css?<?php echo time(); ?>">
+    <link rel="stylesheet" href="../css/style.css?<?php echo time(); ?>">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
@@ -49,7 +49,7 @@ if (session_status() == PHP_SESSION_NONE) {
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav ms-auto me-5"> <!-- Tambahkan class "ms-auto" di sini -->
-                    <a class="nav-link me-3 active" aria-current="page" href="index.php">Home</a>
+                    <a class="nav-link me-3 active" aria-current="page" href="../index.php">Home</a>
                     <a class="nav-link me-3" href="album.php">Album</a>
                     <?php
                         if(!isset($_SESSION['userid'])){
@@ -59,7 +59,7 @@ if (session_status() == PHP_SESSION_NONE) {
                     <?php
                         }else{
                     ?>
-                    <a class="nav-link me-3" href="logout.php">Logout</a>
+                    <a class="nav-link me-3" href="../backend/logout.php">Logout</a>
                     <?php
                         }
                     ?>
@@ -69,12 +69,13 @@ if (session_status() == PHP_SESSION_NONE) {
     </nav>
     <h1 class="text-center mt-3">My Album</h1>
     <div class="container d-flex mt-5">
+        <!-- Album Create menggunakan modal -->
         <div class="bingkai-album-create">
             <button type="button" class="btn" data-toggle="modal" data-target="#contohModal">
-                <img src="gambar/plus.png" alt="" style="width: 50px;">
+                <img src="../gambar/plus.png" alt="" style="width: 50px;">
             </button>
         </div>
-        <!-- modal -->
+        <!-- modal untuk create album -->
         <div class="modal fade" id="contohModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 500px;">
@@ -88,7 +89,7 @@ if (session_status() == PHP_SESSION_NONE) {
                     </div>
                     <div class="modal-body">
                         <!-- Formulir Create -->
-                        <form action="tambah_album.php" method="post" enctype="multipart/form-data">
+                        <form action="../backend/tambah_album.php" method="post" enctype="multipart/form-data">
                             <div class="form-genus d-flex">
                                 <div class="form-spesies-2 ms-2 w-100">
                                     <div class="form-group">
@@ -111,25 +112,25 @@ if (session_status() == PHP_SESSION_NONE) {
             </div>
         </div>
 
-
+        <!-- fungsi untuk menampilkan album yang diambil berdasarkan id user -->
         <?php
-            include "koneksi.php";
+            include "../koneksi.php";
             $userid = $_SESSION['userid'];
             $sql = mysqli_query($conn, "SELECT * FROM album WHERE userid='$userid'");
             while ($data = mysqli_fetch_array($sql)) {
         ?>
+        <!-- tempilan album -->
         <div class="bingkai-album ms-4">
             <h3 class="text-center align-middle"><?= $data['namaalbum'] ?> </h3>
             <div class="delete">
                 <div class="like-view">
-                    <!-- Tambahkan tautan untuk melihat foto pada album tertentu -->
                     <a href="foto_album.php?albumid=<?= $data['albumid'] ?>" class="view me-1" alt="">
                         <td><span data-feather="image"></span></td>
                     </a>
                     <a href="edit_album.php?albumid=<?= $data['albumid'] ?>" class="view me-1" alt="">
                         <td><span data-feather="edit"></span></td>
                     </a>
-                    <a href="hapus_album.php?albumid=<?= $data['albumid'] ?>"  class="view" alt="">
+                    <a href="../backend/hapus_album.php?albumid=<?= $data['albumid'] ?>" class="view" alt="">
                         <td><span data-feather="trash"></span></td>
                     </a>
                 </div>

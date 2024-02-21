@@ -1,5 +1,5 @@
 <?php
-include "koneksi.php";
+include "../koneksi.php";
 
 // Periksa apakah parameter albumid ada pada URL
 if(isset($_GET['albumid'])){
@@ -29,7 +29,7 @@ if(isset($_GET['albumid'])){
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
         integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous">
     </script>
-    <link rel="stylesheet" href="css/style.css?<?php echo time(); ?>">
+    <link rel="stylesheet" href="../css/style.css?<?php echo time(); ?>">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
@@ -50,7 +50,7 @@ if(isset($_GET['albumid'])){
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav ms-auto me-5"> <!-- Tambahkan class "ms-auto" di sini -->
-                    <a class="nav-link me-3 active" aria-current="page" href="index.php">Home</a>
+                    <a class="nav-link me-3 active" aria-current="page" href="../index.php">Home</a>
                     <a class="nav-link me-3" href="album.php">Album</a>
                     <?php
                         session_start();
@@ -61,7 +61,7 @@ if(isset($_GET['albumid'])){
                     <?php
                         }else{
                     ?>
-                    <a class="nav-link me-3" href="logout.php">Logout</a>
+                    <a class="nav-link me-3" href="../backend/logout.php">Logout</a>
                     <?php
                         }
                     ?>
@@ -71,12 +71,11 @@ if(isset($_GET['albumid'])){
     </nav>
 
     <div class="container">
-        <div class="main-image">
+        <div class="main-image1">
             <div class="text-overlay">
-                <h2>FOTO SAYA </h2>
-                <!-- Tombol upload dengan atribut data-toggle dan data-target untuk memicu modal -->
+                <h1 style="color:;"><?= strtoupper($dataAlbum['namaalbum']) ?></h1>
             </div>
-            <!-- Modal -->
+
         </div>
     </div>
 
@@ -85,27 +84,60 @@ if(isset($_GET['albumid'])){
             <?php
             // Loop untuk menampilkan foto berdasarkan album
             while ($data = mysqli_fetch_array($sqlFoto)) {
+            $fotoid = $data['fotoid']; //untuk menginisialisasi $fotoid
             ?>
             <div class="image">
-                <img src="gambar/<?= $data['lokasifile'] ?>" width="200px">
+                <?php
+                // Query untuk mengambil detail foto berdasarkan fotoid
+                $sqlFotoDetail = mysqli_query($conn, "SELECT * FROM foto WHERE fotoid='$fotoid'");
+                $dataFotoDetail = mysqli_fetch_array($sqlFotoDetail);
+
+                // Tampilkan detail foto menggunakan dataFotoDetail jika cocok dengan foto saat ini
+                if ($data['fotoid'] == $fotoid) {
+                ?>
+                <img src="../gambar/<?= $dataFotoDetail['lokasifile'] ?>" width="200px">
+                <div class="overlay">
+                    <div class="judul-foto"><?= $dataFotoDetail['judulfoto'] ?></div>
+                    <div class="like-view">
+                        <!-- Update button -->
+                        <button type="button" class="btn" data-toggle="modal"
+                            data-target="#contohModal<?= $data['fotoid'] ?>"
+                            style="background-color: rgba(0, 0, 0, 0.425); " style="padding: 0;">
+                            <img src="../gambar/edit.png" alt="" style="width: 25px; height: 25px; padding: 0;">
+                        </button>
+                        <!-- delete button -->
+                        <a href="#" onclick="confirmDelete(<?= $dataFotoDetail['fotoid'] ?>)" class="mt-1">
+                            <img src="../gambar/sampah.png" alt="" style="width: 30px; height: 30px;">
+                        </a>
+                    </div>
+                </div>
+                <?php
+                     } else {
+                ?>
+                <!-- Tampilkan detail menggunakan $data -->
+                <img src="../gambar/<?= $data['lokasifile'] ?>" width="200px">
                 <div class="overlay">
                     <div class="judul-foto"><?= $data['judulfoto'] ?></div>
                     <div class="like-view">
-                    <button type="button" class="btn" data-toggle="modal" data-target="#contohModal"
-                        style="background-color: rgba(0, 0, 0, 0.425); " style="padding: 0;">
-                        <img src="gambar/edit.png" alt="" style="width: 25px; height: 25px; padding: 0;">
-                    </button>
-                    <a href="hapus_foto.php?fotoid=<?=$data['fotoid']?>" class="mt-1"><img src="gambar/sampah.png" alt=""
-                                style="width: 30px; height: 30px;"></a>
-
-                        <!-- <a href="edit_foto.php?fotoid=<?= $data['fotoid'] ?>"> <img src="gambar/edit.png" alt=""
-                                style="width: 30px; height: 30px;"> </a> -->
+                        <!-- Update button -->
+                        <button type="button" class="btn" data-toggle="modal" data-target="#contohModal"
+                            style="background-color: rgba(0, 0, 0, 0.425); " style="padding: 0;">
+                            <img src="../gambar/edit.png" alt="" style="width: 25px; height: 25px; padding: 0;">
+                        </button>
+                        <!-- delete button -->
+                        <a href="#" onclick="confirmDelete(<?= $data['fotoid'] ?>)" class="mt-1">
+                            <img src="../gambar/sampah.png" alt="" style="width: 30px; height: 30px;">
+                        </a>
                     </div>
                 </div>
+                <?php
+                     }
+                ?>
             </div>
-             <!-- Modal -->
-             <div class="modal fade" id="contohModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
-                aria-hidden="true">
+
+            <!-- Modal untuk Update-->
+            <div class="modal fade" id="contohModal<?= $data['fotoid'] ?>" tabindex="-1" role="dialog"
+                aria-labelledby="modalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 610px;">
                     <div class="modal-content">
                         <!-- Konten modal di sini -->
@@ -117,17 +149,17 @@ if(isset($_GET['albumid'])){
                         </div>
                         <div class="modal-body">
                             <!-- Formulir Create -->
-                            <form action="update_foto.php" method="post" enctype="multipart/form-data">
-                                <input type="text" name="fotoid" value="<?=$data['fotoid']?>" hidden>
+                            <form action="../backend/update_foto.php" method="post" enctype="multipart/form-data">
+                                <input type="text" name="fotoid" value="<?= $data['fotoid'] ?>" hidden>
 
                                 <div class="form-genus d-flex">
                                     <div class="form-spesies-1">
                                         <div class="form-group">
                                             <label for="lokasifile">Choose Image</label>
                                             <!-- Tentukan lebar dan tinggi yang diinginkan -->
-                                            <input type="file" class="form-control" id="lokasifile" name="lokasifile"
-                                                accept="assets/img/upload-3-64.png" style="width: 250px; height: 300px;"
-                                                required>
+                                            <input type="file" class="form-control" id="lokasifile"
+                                                name="lokasifile" accept="assets/img/upload-3-64.png"
+                                                style="width: 250px; height: 300px;" required>
                                             <!-- Tampilkan pratinjau gambar jika dibutuhkan -->
                                             <img id="imagePreview"
                                                 style="max-width: 100%; max-height: 200px; margin-top: 10px;" />
@@ -137,7 +169,8 @@ if(isset($_GET['albumid'])){
                                         <div class="form-group">
                                             <label for="judulfoto">Judul Foto</label>
                                             <input type="text" class="form-control mt-2" id="judulfoto"
-                                                name="judulfoto" required style="height: 50px;" value="<?=$data['judulfoto']?>">
+                                                name="judulfoto" required style="height: 50px;"
+                                                value="<?= $data['judulfoto'] ?>">
                                         </div>
                                         <div class="form-group mt-3">
                                             <label for="AlbumID" class="form-label">Album</label>
@@ -147,7 +180,10 @@ if(isset($_GET['albumid'])){
                                                      $sql2=mysqli_query($conn,"select * from album where userid='$userid'");
                                                      while($data2=mysqli_fetch_array($sql2)){
                                                 ?>
-                                                    <option value="<?=$data2['albumid']?>" <?php if($data2['albumid']==$data['albumid']){echo 'selected';}?>><?=$data2['namaalbum']?></option>
+                                                <option value="<?= $data2['albumid'] ?>" <?php if ($data2['albumid'] == $data['albumid']) {
+                                                    echo 'selected';
+                                                } ?>>
+                                                    <?= $data2['namaalbum'] ?></option>
                                                 </option>
                                                 <?php
                                                     }
@@ -158,13 +194,14 @@ if(isset($_GET['albumid'])){
                                         <div class="form-group mt-3">
                                             <label for="deskripsifoto">Deskripsi</label>
                                             <input type="text" class="form-control mt-2" id="deskripsifoto"
-                                                name="deskripsifoto" required style="height: 80px;"  value="<?=$data['deskripsifoto']?>">
+                                                name="deskripsifoto" required style="height: 80px;"
+                                                value="<?= $data['deskripsifoto'] ?>">
                                         </div>
                                     </div>
                                 </div>
                                 <button type="submit" value="ubah" name="submit"
                                     class="btn btn-primary">Update</button>
-                        
+
                             </form>
                         </div>
                     </div>
@@ -226,11 +263,11 @@ if(isset($_GET['albumid'])){
                         <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
                             <h6 class="text-uppercase mb-4 font-weight-bold">Follow us</h6>
 
-                            <a class="btn btn-primary btn-floating m-1" style="background-color: #3b5998" href="#!"
-                                role="button"><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-primary btn-floating m-1" style="background-color: #3b5998"
+                                href="#!" role="button"><i class="fab fa-facebook-f"></i></a>
 
-                            <a class="btn btn-primary btn-floating m-1" style="background-color: #55acee" href="#!"
-                                role="button"><i class="fab fa-twitter"></i></a>
+                            <a class="btn btn-primary btn-floating m-1" style="background-color: #55acee"
+                                href="#!" role="button"><i class="fab fa-twitter"></i></a>
 
                             <a class="btn btn-primary btn-floating m-1" style="background-color: #dd4b39"
                                 href="#!" role="button"><i class="fab fa-google"></i></a>
@@ -272,7 +309,8 @@ if(isset($_GET['albumid'])){
     <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"
         integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous">
     </script>
-    <!-- choose one -->
+
+    <!-- logo feather -->
     <script src="https://unpkg.com/feather-icons"></script>
     <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 
@@ -280,6 +318,18 @@ if(isset($_GET['albumid'])){
         feather.replace();
     </script>
 
+    <!-- Script confirm delete  -->
+    <script>
+        function confirmDelete(fotoid) {
+            // Gunakan fungsi confirm untuk menampilkan pop-up konfirmasi
+            var userConfirmation = confirm("Yakin dihapus?");
+
+            // Jika pengguna menekan OK, arahkan ke halaman hapus dengan id fotoid
+            if (userConfirmation) {
+                window.location.href = `../backend/hapus_foto.php?fotoid=${fotoid}`;
+            }
+        }
+    </script>
 </body>
 
 </html>
